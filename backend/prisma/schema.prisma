@@ -13,19 +13,30 @@ datasource db {
 }
 
 model User {
-id Int @id @unique
+id Int @id 
 username String @unique
 firstname String
 lastname String
 password String
+
 }
 
-model Conversations {
+//A third table to manage many - many relation between chats
+model Chat {
+chatid Int @id @default(autoincrement())
+users User[]
+message Messages[]
+}
+
+model Messages {
 message String
+msg_id Int @id
 
-sentBy User @relation(fields: [sentById], references: [id])
-sentById Int
+chat Chat @relation(fields: [chatId], references: [chatid])
+chatId Int
 
-sentTo User @relation(fields: [sentToId], references: [id])
-sentToId Int
+sentBy User @relation(fields: [senderId], references: [id])
+senderId Int
+
+createdAt  DateTime  @default(now()) 
 }

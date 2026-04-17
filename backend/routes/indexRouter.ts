@@ -1,14 +1,11 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 
+//Declaration:
 const indexRouter = Router();
 
-indexRouter.get("/", (req: Request, res: Response) => {
-        res.json({
-                message: "Hello from the Router",
-        });
-})
+indexRouter.get("/",)
 
 
-
+//Exporting the routes to be used in main folder:
 export { indexRouter };
