@@ -11,3 +11,21 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+id Int @id @unique
+username String @unique
+firstname String
+lastname String
+password String
+}
+
+model Conversations {
+message String
+
+sentBy User @relation(fields: [sentById], references: [id])
+sentById Int
+
+sentTo User @relation(fields: [sentToId], references: [id])
+sentToId Int
+}
