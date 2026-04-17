@@ -9,11 +9,13 @@
     // See also https://aka.ms/tsconfig/module
     "module": "ESNext",
     "target": "ES2023",
+    "moduleResolution": "bundler",
     "strict": true,
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
+    "allowImportingTsExtensions": true,
 
-    "types": [],
+    "types": ["node"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
