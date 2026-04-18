@@ -19,24 +19,37 @@ firstname String
 lastname String
 password String
 
+chats Chat[]
+sentMessages Messages[] @relation("SentBy")
+receivedMessages Messages[] @relation("SentTo")
+
 }
 
-//A third table to manage many - many relation between chats
+//A third table to manage one - many relation between chats
 model Chat {
+
 chatid Int @id @default(autoincrement())
-users User[]
+
+user User @relation(fields: [userId], references:[id])
+userId Int
+
 message Messages[]
+
 }
 
 model Messages {
 message String
 msg_id Int @id
 
-chat Chat @relation(fields: [chatId], references: [chatid])
+chats Chat @relation(fields: [chatId], references: [chatid])
 chatId Int
 
-sentBy User @relation(fields: [senderId], references: [id])
-senderId Int
+sentBy User @relation("SentBy", fields: [sentById ], references:[id]) 
+sentById Int
+
+
+sentTo User @relation("SentTo", fields: [sentToId], references:[id]) 
+sentToId Int
 
 createdAt  DateTime  @default(now()) 
 }
