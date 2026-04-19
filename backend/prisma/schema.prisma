@@ -13,7 +13,7 @@ datasource db {
 }
 
 model User {
-id Int @id 
+id Int @id @default(autoincrement())
 username String @unique
 firstname String
 lastname String
@@ -39,7 +39,7 @@ message Messages[]
 
 model Messages {
 message String
-msg_id Int @id
+msg_id String @id 
 
 chats Chat @relation(fields: [chatId], references: [chatid])
 chatId Int
