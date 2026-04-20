@@ -1,7 +1,15 @@
 import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
 import { prisma } from './database';
 import bcrypt from 'bcryptjs';
+import "dotenv/config";
+
+const opts = {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: process.env.SECRETKEY!,
+
+}
 
 
 passport.use(new LocalStrategy(async (username, password, done) => {
@@ -31,13 +39,27 @@ passport.use(new LocalStrategy(async (username, password, done) => {
 }));
 
 
-passport.serializeUser((user, done) => {
-        return done(null, user);
-})
+passport.use(new JWTStrategy(opts, async (jwtpayload, done) => {
 
-passport.deserializeUser((user, done) => {
-        return done(null, user);
-})
+
+        try {
+                const user = await prisma.user.findFirst({
+                        where: {
+                                id: jwtpayload.id,
+                        }
+                });
+
+                if (!user) {
+                        return done(null, false);
+                }
+
+                return done(null, user);
+        } catch (err) {
+                return done(err);
+        }
+
+
+}))
 
 
 
