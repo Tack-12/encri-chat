@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
-import { prisma } from '../utils/database';
+import { prisma } from '../utils/database.ts';
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs';
 
 declare global {
         namespace Express {
@@ -19,21 +20,22 @@ const login = (req: Request, res: Response) => {
         }
         const token = jwt.sign(user.id, process.env.SECRETKEY!);
 
-        return res.json({ user, token });
+        return res.json({ "user_id": user.id, token });
 }
 
 
 const signup = async (req: Request, res: Response) => {
         const { username, password, firstname, lastname } = req.body;
+        const hash_pass = await bcrypt.hash(password, 10);
 
         await prisma.user.create({
                 data: {
                         username,
-                        password,
+                        password: hash_pass,
                         firstname,
                         lastname
                 }
-        })
+        });
 
 }
 

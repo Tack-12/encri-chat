@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
-import { prisma } from "../utils/database";
+import { prisma } from "../utils/database.ts";
 import { v4 as uuidv4 } from 'uuid';
 
 
 const sendMessagePost = async (req: Request, res: Response) => {
         const { message } = req.body;
         const { sentToId, chatId } = req.params;
-        const sentById = req.user.id;
+        const sentById = req.user!.id;
         const msg_id = uuidv4();
 
         await prisma.messages.create({
@@ -14,7 +14,7 @@ const sendMessagePost = async (req: Request, res: Response) => {
                         message,
                         msg_id,
                         chatId: Number(chatId),
-                        sentById,
+                        sentById: Number(sentById),
                         sentToId: Number(chatId)
                 }
         })

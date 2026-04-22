@@ -1,7 +1,7 @@
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
-import { prisma } from './database';
+import { prisma } from './database.ts';
 import bcrypt from 'bcryptjs';
 import "dotenv/config";
 

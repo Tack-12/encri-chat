@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT;
 
 //Middlewares :
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //Deafault implementation for the route

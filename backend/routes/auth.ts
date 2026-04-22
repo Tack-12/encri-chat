@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import passport from "passport";
-import jwt from "jsonwebtoken";
+import { passport } from "../utils/passport.ts";
 
 
 
