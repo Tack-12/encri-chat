@@ -29,7 +29,7 @@ sentMessages Messages[] @relation("SentBy")
 //A third table to manage one - many relation between chats
 model Chat {
 
-chatid Int @id 
+chatid String @id 
 
 user User @relation("sender" , fields: [userId], references:[id])
 userId Int
@@ -47,7 +47,7 @@ message String
 msg_id String @id 
 
 chats Chat @relation(fields: [chatId], references: [chatid])
-chatId Int
+chatId String 
 
 sentBy User @relation("SentBy", fields: [sentById ], references:[id]) 
 sentById Int

@@ -59,7 +59,7 @@ passport.use(new JWTStrategy(opts, async (jwtpayload, done) => {
         }
 
 
-}))
+}));
 
 
 

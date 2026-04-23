@@ -11,17 +11,25 @@ The message is sent by user where user is received from middleware, message from
 const sendMessagePost = async (req: Request, res: Response) => {
         const { message } = req.body;
         const { chatId } = req.params;
+        console.log(chatId)
         const sentById = req.user!.id;
         const msg_id = uuidv4();
 
-        await prisma.messages.create({
-                data: {
-                        message,
-                        msg_id,
-                        chatId: Number(chatId),
-                        sentById: Number(sentById),
-                }
-        })
+        try {
+                await prisma.messages.create({
+                        data: {
+                                message,
+                                msg_id,
+                                sentById: Number(sentById),
+                                chatId: String(chatId)
+                        }
+                })
+                return res.status(200)
+        } catch (err) {
+                res.status(404).json({
+                        message: err
+                })
+        }
 
 }
 

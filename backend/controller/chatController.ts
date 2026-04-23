@@ -8,14 +8,38 @@ import { v4 as uuidv4 } from 'uuid';
 
 const addChatsGet = async (req: Request, res: Response) => {
 
-        const { friendsId } = req.params;
+        const { receiverId } = req.params;
         const user_id = req.user!.id;
 
         const chat_id = uuidv4();
 
 
-        await prisma.chat.create({
+        try {
 
-        })
+                await prisma.chat.create({
+                        data: {
+                                chatid: chat_id,
+                                user: {
+                                        connect: {
+                                                id: Number(user_id),
+                                        }
+                                },
+                                rec_user: {
+                                        connect: {
+                                                id: Number(receiverId)
+                                        }
+                                }
+                        }
+                })
+
+                return res.status(200);
+        } catch (err) {
+                return res.status(404).json({
+                        message: err
+                })
+        }
 
 }
+
+
+export { addChatsGet };
