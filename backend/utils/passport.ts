@@ -45,9 +45,11 @@ passport.use(new JWTStrategy(opts, async (jwtpayload, done) => {
         try {
                 const user = await prisma.user.findFirst({
                         where: {
-                                id: jwtpayload.id,
+                                id: Number(jwtpayload),
                         }
                 });
+
+                console.log("this is paylod", jwtpayload)
 
                 if (!user) {
                         return done(null, false);

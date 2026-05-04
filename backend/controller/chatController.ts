@@ -10,6 +10,7 @@ const addChatsGet = async (req: Request, res: Response) => {
 
         const { receiverId } = req.params;
         const user_id = req.user!.id;
+        console.log(req.user)
 
         const chat_id = uuidv4();
 
@@ -32,7 +33,9 @@ const addChatsGet = async (req: Request, res: Response) => {
                         }
                 })
 
-                return res.status(200);
+                return res.status(200).json({
+                        message: "Created a chat"
+                });
         } catch (err) {
                 return res.status(404).json({
                         message: err

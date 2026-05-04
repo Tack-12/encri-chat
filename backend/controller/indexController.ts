@@ -19,7 +19,7 @@ const login = (req: Request, res: Response) => {
                 })
         }
         const token = jwt.sign(user.id, process.env.SECRETKEY!);
-
+        console.log(user.id);
         return res.json({ id: user.id, token });
 }
 

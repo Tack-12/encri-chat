@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { prisma } from "../utils/database.ts";
 import { v4 as uuidv4 } from 'uuid';
+import type { Socket } from "node:dgram";
 
 /*
 
@@ -14,6 +15,12 @@ const sendMessagePost = async (req: Request, res: Response) => {
         console.log(chatId)
         const sentById = req.user!.id;
         const msg_id = uuidv4();
+        const io = req.app.get('socketio');
+
+
+        io.on("connection", (socket: any) => {
+                console.log(socket.id)
+        });
 
         try {
                 await prisma.messages.create({
