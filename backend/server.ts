@@ -26,12 +26,16 @@ const io = new Server(server);
 app.set("socketio", io);
 
 io.on("connection", (socket) => {
-        console.log(socket.id)
+        console.log(socket.id);
+
         socket.on("joinChat", (chatId) => {
-                socket.join(chatId);
+                socket.join(chatId); // Join the Chat Room with the Id
+                socket.emit("joined", chatId);
         });
+
+        socket.on("disconnect", () => {
+                socket.rooms.size === 0; // disconnect from all the rooms after leaving
+        })
 });
 
-io.on("disconnect", () => {
-})
 
