@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import { prisma } from "../utils/database.ts";
 import { v4 as uuidv4 } from 'uuid';
-import type { Socket } from "node:dgram";
 
 /*
 
@@ -18,12 +17,8 @@ const sendMessagePost = async (req: Request, res: Response) => {
         const io = req.app.get('socketio');
 
 
-        io.on("connection", (socket: any) => {
-                console.log(socket.id)
-        });
-
         try {
-                await prisma.messages.create({
+                const newMessage = await prisma.messages.create({
                         data: {
                                 message,
                                 msg_id,
@@ -31,7 +26,12 @@ const sendMessagePost = async (req: Request, res: Response) => {
                                 chatId: String(chatId)
                         }
                 })
-                return res.status(200)
+
+                io.to(chatId).emit("newMessage", newMessage);
+
+                return res.status(200).json({
+                        message: "Message Sent Succesfully"
+                })
         } catch (err) {
                 res.status(404).json({
                         message: err

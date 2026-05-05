@@ -22,4 +22,16 @@ const server = app.listen(port, () => {
 
 //Exports Sockets to various routes to be used in controllers.
 const io = new Server(server);
+
 app.set("socketio", io);
+
+io.on("connection", (socket) => {
+        console.log(socket.id)
+        socket.on("joinChat", (chatId) => {
+                socket.join(chatId);
+        });
+});
+
+io.on("disconnect", () => {
+})
+
